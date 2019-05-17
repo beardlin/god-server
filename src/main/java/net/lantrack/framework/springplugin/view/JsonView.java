@@ -65,17 +65,17 @@ public class JsonView extends MappingJackson2JsonView {
             value = container;
         }
         
-		String jsonpParameterValue = getJsonpParameterValue(request);
-		if (jsonpParameterValue != null) {
-			if (value instanceof MappingJacksonValue) {
-				((MappingJacksonValue) value).setJsonpFunction(jsonpParameterValue);
-			}
-			else {
-				MappingJacksonValue container = new MappingJacksonValue(value);
-				container.setJsonpFunction(jsonpParameterValue);
-				value = container;
-			}
-		}
+//		String jsonpParameterValue = getJsonpParameterValue(request);
+//		if (jsonpParameterValue != null) {
+//			if (value instanceof MappingJacksonValue) {
+//				((MappingJacksonValue) value).setJsonpFunction(jsonpParameterValue);
+//			}
+//			else {
+//				MappingJacksonValue container = new MappingJacksonValue(value);
+//				container.setJsonpFunction(jsonpParameterValue);
+//				value = container;
+//			}
+//		}
 		if(value instanceof ReturnEntity){
 		    request.setAttribute("returnEntity", value);
 		}else if(value instanceof ReturnPage){
@@ -84,22 +84,22 @@ public class JsonView extends MappingJackson2JsonView {
 		return value;
 	}
 	
-	private String getJsonpParameterValue(HttpServletRequest request) {
-		if (this.jsonpParameterNames != null) {
-			for (String name : this.jsonpParameterNames) {
-				String value = request.getParameter(name);
-				if (StringUtils.isEmpty(value)) {
-					continue;
-				}
-				if (!isValidJsonpQueryParam(value)) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Ignoring invalid jsonp parameter value: " + value);
-					}
-					continue;
-				}
-				return value;
-			}
-		}
-		return null;
-	}
+//	private String getJsonpParameterValue(HttpServletRequest request) {
+//		if (this.jsonpParameterNames != null) {
+//			for (String name : this.jsonpParameterNames) {
+//				String value = request.getParameter(name);
+//				if (StringUtils.isEmpty(value)) {
+//					continue;
+//				}
+//				if (!isValidJsonpQueryParam(value)) {
+//					if (logger.isDebugEnabled()) {
+//						logger.debug("Ignoring invalid jsonp parameter value: " + value);
+//					}
+//					continue;
+//				}
+//				return value;
+//			}
+//		}
+//		return null;
+//	}
 }
