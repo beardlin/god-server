@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.UserMenuDao">
+	<resultMap id="BaseResultMap"
+		type="net.lantrack.framework.sysbase.entity.UserMenu">
+		<result column="user_id" property="userId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="menu_id" property="menuId" javaType="java.lang.Integer"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 单个插入 -->
+	<insert id="insert"  parameterType="net.lantrack.framework.sysbase.entity.UserMenu">
+        insert into user_menu (user_id, menu_id)
+        values (#{userId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER})
+    </insert>
+	<!-- 批量插入 -->
+	<insert id="insertList" parameterType="java.util.List">
+		insert into user_menu (user_id, menu_id) values
+		<foreach collection="list" item="temp" separator=",">
+			(#{temp.userId,jdbcType=VARCHAR}, #{temp.menuId,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+	<!-- 根据角色查询对应权限 -->
+	<select id="queryMenuListByUser" parameterType="java.lang.String" resultType="java.lang.Integer">
+	       select menu_id from user_menu where user_id = #{id}
+	</select>
+	
+	<resultMap  id="menuTree" type="net.lantrack.framework.sysbase.model.menu.MenuTreeModel">
+	   <result column="id" property="id" javaType="java.lang.Integer"/>
+	   <result column="pid" property="pid" javaType="java.lang.Integer"/>
+	   <result column="name" property="name" javaType="java.lang.String"/>
+	</resultMap>
+	<!-- 查看当前用户下的权限 -->
+	<select id="getMenuByUserId" parameterType="java.lang.String" 
+	       resultMap="menuTree">
+	   SELECT  menu.id as id,menu.parent_id as pid,menu.menu_name as name
+       FROM  user_menu dm LEFT JOIN sys_menu menu
+       ON dm.menu_id = menu.id  WHERE  
+       menu.del_flag = 0
+       AND dm.user_id=#{id} order by menu.sort asc
+	</select>
+	<!-- 删除指定用户关联的所有角色 -->
+	<delete id="deleteByUserId" parameterType="java.util.List" >
+	   delete from user_menu where user_id in
+	   <foreach collection="list" open="(" close=")" item="temp" separator=",">
+            #{temp}
+        </foreach>
+	</delete>
+	
+
+</mapper>

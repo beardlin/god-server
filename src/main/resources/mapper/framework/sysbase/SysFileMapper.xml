@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.SysFileMapper">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.SysFile">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="new_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="old_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="p_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="p_ids" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="file_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_direct" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="direct_level" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="target" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="is_show" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="allow_download" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="file_url" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand4" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand6" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, new_name, old_name, p_id, p_ids, file_type, if_direct, direct_level, target, 
+    is_show, allow_download, file_url, stand1, stand2, stand3, stand4, stand5, stand6, 
+    create_by, create_date, update_by, update_date, remarks, del_flag
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.SysFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.SysFileExample">
+    delete from sys_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.SysFile">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_file (new_name, old_name, p_id, 
+      p_ids, file_type, if_direct, 
+      direct_level, target, is_show, 
+      allow_download, file_url, stand1, 
+      stand2, stand3, stand4, 
+      stand5, stand6, create_by, 
+      create_date, update_by, update_date, 
+      remarks, del_flag)
+    values (#{newName,jdbcType=VARCHAR}, #{oldName,jdbcType=VARCHAR}, #{pId,jdbcType=INTEGER}, 
+      #{pIds,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, #{ifDirect,jdbcType=INTEGER}, 
+      #{directLevel,jdbcType=INTEGER}, #{target,jdbcType=BIGINT}, #{isShow,jdbcType=INTEGER}, 
+      #{allowDownload,jdbcType=INTEGER}, #{fileUrl,jdbcType=VARCHAR}, #{stand1,jdbcType=VARCHAR}, 
+      #{stand2,jdbcType=VARCHAR}, #{stand3,jdbcType=VARCHAR}, #{stand4,jdbcType=VARCHAR}, 
+      #{stand5,jdbcType=VARCHAR}, #{stand6,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.SysFile">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newName != null">
+        new_name,
+      </if>
+      <if test="oldName != null">
+        old_name,
+      </if>
+      <if test="pId != null">
+        p_id,
+      </if>
+      <if test="pIds != null">
+        p_ids,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="ifDirect != null">
+        if_direct,
+      </if>
+      <if test="directLevel != null">
+        direct_level,
+      </if>
+      <if test="target != null">
+        target,
+      </if>
+      <if test="isShow != null">
+        is_show,
+      </if>
+      <if test="allowDownload != null">
+        allow_download,
+      </if>
+      <if test="fileUrl != null">
+        file_url,
+      </if>
+      <if test="stand1 != null">
+        stand1,
+      </if>
+      <if test="stand2 != null">
+        stand2,
+      </if>
+      <if test="stand3 != null">
+        stand3,
+      </if>
+      <if test="stand4 != null">
+        stand4,
+      </if>
+      <if test="stand5 != null">
+        stand5,
+      </if>
+      <if test="stand6 != null">
+        stand6,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newName != null">
+        #{newName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null">
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="pIds != null">
+        #{pIds,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="ifDirect != null">
+        #{ifDirect,jdbcType=INTEGER},
+      </if>
+      <if test="directLevel != null">
+        #{directLevel,jdbcType=INTEGER},
+      </if>
+      <if test="target != null">
+        #{target,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null">
+        #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="allowDownload != null">
+        #{allowDownload,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null">
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stand1 != null">
+        #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        #{stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="stand4 != null">
+        #{stand4,jdbcType=VARCHAR},
+      </if>
+      <if test="stand5 != null">
+        #{stand5,jdbcType=VARCHAR},
+      </if>
+      <if test="stand6 != null">
+        #{stand6,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.SysFileExample" resultType="java.lang.Long">
+    select count(*) from sys_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.newName != null">
+        new_name = #{record.newName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldName != null">
+        old_name = #{record.oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pId != null">
+        p_id = #{record.pId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pIds != null">
+        p_ids = #{record.pIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifDirect != null">
+        if_direct = #{record.ifDirect,jdbcType=INTEGER},
+      </if>
+      <if test="record.directLevel != null">
+        direct_level = #{record.directLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.target != null">
+        target = #{record.target,jdbcType=BIGINT},
+      </if>
+      <if test="record.isShow != null">
+        is_show = #{record.isShow,jdbcType=INTEGER},
+      </if>
+      <if test="record.allowDownload != null">
+        allow_download = #{record.allowDownload,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileUrl != null">
+        file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand1 != null">
+        stand1 = #{record.stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand2 != null">
+        stand2 = #{record.stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand3 != null">
+        stand3 = #{record.stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand4 != null">
+        stand4 = #{record.stand4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand5 != null">
+        stand5 = #{record.stand5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand6 != null">
+        stand6 = #{record.stand6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_file
+    set id = #{record.id,jdbcType=INTEGER},
+      new_name = #{record.newName,jdbcType=VARCHAR},
+      old_name = #{record.oldName,jdbcType=VARCHAR},
+      p_id = #{record.pId,jdbcType=INTEGER},
+      p_ids = #{record.pIds,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
+      if_direct = #{record.ifDirect,jdbcType=INTEGER},
+      direct_level = #{record.directLevel,jdbcType=INTEGER},
+      target = #{record.target,jdbcType=BIGINT},
+      is_show = #{record.isShow,jdbcType=INTEGER},
+      allow_download = #{record.allowDownload,jdbcType=INTEGER},
+      file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      stand1 = #{record.stand1,jdbcType=VARCHAR},
+      stand2 = #{record.stand2,jdbcType=VARCHAR},
+      stand3 = #{record.stand3,jdbcType=VARCHAR},
+      stand4 = #{record.stand4,jdbcType=VARCHAR},
+      stand5 = #{record.stand5,jdbcType=VARCHAR},
+      stand6 = #{record.stand6,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.framework.sysbase.entity.SysFile">
+    update sys_file
+    <set>
+      <if test="newName != null">
+        new_name = #{newName,jdbcType=VARCHAR},
+      </if>
+      <if test="oldName != null">
+        old_name = #{oldName,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null">
+        p_id = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="pIds != null">
+        p_ids = #{pIds,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="ifDirect != null">
+        if_direct = #{ifDirect,jdbcType=INTEGER},
+      </if>
+      <if test="directLevel != null">
+        direct_level = #{directLevel,jdbcType=INTEGER},
+      </if>
+      <if test="target != null">
+        target = #{target,jdbcType=BIGINT},
+      </if>
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=INTEGER},
+      </if>
+      <if test="allowDownload != null">
+        allow_download = #{allowDownload,jdbcType=INTEGER},
+      </if>
+      <if test="fileUrl != null">
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="stand1 != null">
+        stand1 = #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        stand2 = #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        stand3 = #{stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="stand4 != null">
+        stand4 = #{stand4,jdbcType=VARCHAR},
+      </if>
+      <if test="stand5 != null">
+        stand5 = #{stand5,jdbcType=VARCHAR},
+      </if>
+      <if test="stand6 != null">
+        stand6 = #{stand6,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.framework.sysbase.entity.SysFile">
+    update sys_file
+    set new_name = #{newName,jdbcType=VARCHAR},
+      old_name = #{oldName,jdbcType=VARCHAR},
+      p_id = #{pId,jdbcType=INTEGER},
+      p_ids = #{pIds,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      if_direct = #{ifDirect,jdbcType=INTEGER},
+      direct_level = #{directLevel,jdbcType=INTEGER},
+      target = #{target,jdbcType=BIGINT},
+      is_show = #{isShow,jdbcType=INTEGER},
+      allow_download = #{allowDownload,jdbcType=INTEGER},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      stand1 = #{stand1,jdbcType=VARCHAR},
+      stand2 = #{stand2,jdbcType=VARCHAR},
+      stand3 = #{stand3,jdbcType=VARCHAR},
+      stand4 = #{stand4,jdbcType=VARCHAR},
+      stand5 = #{stand5,jdbcType=VARCHAR},
+      stand6 = #{stand6,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 查询当前目录下的文件或文件夹 -->
+  <select id="queryByPid" resultMap="BaseResultMap">
+  	select * from sys_file where p_id = #{pId} and is_show = 0 order by if_direct desc,update_date desc
+  </select>
+  
+  <!-- 自定义Sql查询 -->
+  <select id="searchBySql"  resultMap="BaseResultMap">
+  		${querySql}
+  </select>
+</mapper>

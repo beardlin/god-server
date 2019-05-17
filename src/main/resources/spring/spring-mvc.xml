@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 自动加载属性配置文件 -->
+    <context:property-placeholder ignore-unresolvable="true" file-encoding="UTF-8" location="classpath:properties/config.properties" />
+    <!-- 在后台可以直接读取properties-->
+    <bean id="propertyConfigurer" class="net.lantrack.framework.springplugin.PropertyPlaceholder">
+        <property name="locations">
+            <list>
+                <value>classpath*:properties/ssomg.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding" value="UTF-8" />
+    </bean>
+    
+    <!-- 使用Annotation自动注册Bean,只扫描@Controller <context:component-scan/>标签的作用
+        ：是告诉Spring 来扫描指定包下的类，并注册被@Component，@Controller，@Service，@Repository等注解标记的组件 -->
+    <!-- base-package 如果多个，用“,”分隔 -->
+    <context:component-scan base-package="net.lantrack"  use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <bean id="defaultJsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+
+    <!-- <mvc:annotation-driven />作用： 告知Spring，我们启用注解驱动 是一种简写形式，完全可以手动配置替代这种简写形式，简写形式可以让初学都快速应用默认配置方案。
+        <mvc:annotation-driven /> 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter
+        两个bean, 是spring MVC为@Controllers分发请求所必须的。 并提供了：数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持，读写XML的支持（JAXB），读写JSON的支持（Jackson）。
+        后面，我们处理响应ajax请求时，就使用到了对json的支持。 后面，对action写JUnit单元测试时，要从spring IOC容器中取DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter
+        两个bean， 来完成测试，取的时候要知道是<mvc:annotation-driven />这一句注册的这两个bean。 后期将根据项目需求改变，如果请求格式自定义json等信息，将修改写
+        mvc:annotation-driven ... -->
+    <mvc:annotation-driven/>
+
+    <!-- 自定义视图 让同时支持 json ,xml JSP 等 -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+                <property name="ignoreAcceptHeader" value="true"/>
+                <property name="defaultContentType" value="text/html"/>
+                <property name="mediaTypes">
+                    <props>
+                        <prop key="json">application/json</prop>
+                        <prop key="xml">application/xml</prop>
+                        <prop key="pdf">application/pdf</prop>
+                    </props>
+                </property>
+            </bean>
+        </property>
+        <property name="viewResolvers">
+            <list>
+
+                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass" value="net.lantrack.framework.springplugin.view.JspView"/>
+                    <property name="prefix" value="${prefix}"/>
+                    <property name="suffix" value="${suffix}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="net.lantrack.framework.springplugin.view.JsonView">
+                	<property name="objectMapper">
+						<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+							<property name="dateFormat">
+								<bean class="java.text.SimpleDateFormat">
+									<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+								</bean>
+							</property>
+						</bean>
+					</property>
+                </bean>
+                <bean class="net.lantrack.framework.springplugin.view.XmlView">
+                    <property name="marshaller">
+                        <bean class="net.lantrack.framework.springplugin.view.Marshaller"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 对静态资源文件的访问， 将无法mapping到Controller的path交给default servlet handler处理 -->
+    <mvc:default-servlet-handler/>
+	<!--  静态资源 -->
+<!--     <mvc:resources location="/base/" mapping="/base/**"></mvc:resources> -->
+    <!-- 如果当前路径是/ 则重定向到/... -->
+    <mvc:view-controller path="/" view-name="redirect:/index"/>
+
+    
+    <mvc:interceptors>
+        <!-- 日志拦截器 1、操作日志只操作结果状态，即StutusCode 状态编码信息；如：正常、请求参数非法 等； 
+                2、将所有异常信息写入log日志，是否将错误信息写入数据库日志；通过配置参数LogInterceptor 的 isSave属性 ；默认为false 不写入数据库 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/*/**"/>
+            <mvc:exclude-mapping path="/*/base/**" />
+            <mvc:exclude-mapping path="/*/login.jsp"/>
+            <mvc:exclude-mapping path="/*/index*.jsp"/>
+            <bean class="net.lantrack.framework.sysbase.interceptor.LogInterceptor"/>
+        </mvc:interceptor>
+        
+    </mvc:interceptors>
+
+    <!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+    <bean id="multipartResolver" class="net.lantrack.framework.springplugin.progress.CustomMultipartResolver">
+        <property name="maxUploadSize" value="${maxUploadSize}"/>
+           <!-- 上传文件大小若小于此参数，则不会生成临时文件  -->
+        <property name="maxInMemorySize" value="3145728"/>
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+    <!-- 全球异常统一处理 ；设计思想为： -->
+    <!-- 1、将所有异常信息写入log4j日志，而不写操作日志； -->
+    <!-- 2、操作日志只操作结果状态，即StutusCode 状态编码信息；如：正常、请求参数非法 等； -->
+    <!-- 3、 此ID名handlerExceptionResolver为Spring写死的名称不可变，要么改写spring的DispatcherServlet来自定义
+        handlerExceptionResolver -->
+
+    <bean id="handlerExceptionResolver"
+          class="net.lantrack.framework.sysbase.interceptor.GlobalExceptionHandler"/>
+
+</beans>

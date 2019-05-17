@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.SysUserDao">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.SysUser">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="login_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sex" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="if_admin" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="mobile" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_duty" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="duty_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="accredit_flag" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="sync_flag" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="birthday" javaType="java.lang.String" jdbcType="DATE" />
+      
+      <arg column="create_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  
+  
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, office_id, login_name, password, user_name, sex, if_admin, email, mobile, user_duty, 
+    duty_name, accredit_flag, sync_flag, birthday, user_code, create_by, create_date, 
+    update_by, update_date, remarks, del_flag
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.SysUserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.SysUserExample">
+    delete from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.SysUser">
+    
+    insert into sys_user (id,office_id, login_name, password, 
+      user_name, sex, if_admin, email, 
+      mobile, user_duty, duty_name, 
+      accredit_flag, sync_flag, birthday, 
+      user_code, create_by, create_date, 
+      update_by, update_date, remarks, 
+      del_flag)
+    values (#{id,jdbcType=VARCHAR},#{officeId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{ifAdmin,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{userDuty,jdbcType=INTEGER}, #{dutyName,jdbcType=VARCHAR}, 
+      #{accreditFlag,jdbcType=CHAR}, #{syncFlag,jdbcType=CHAR}, #{birthday,jdbcType=DATE}, 
+      #{userCode,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.SysUser">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+   	 <if test="id != null">
+        id,
+      </if>
+      <if test="officeId != null">
+        office_id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="ifAdmin != null">
+        if_admin,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="userDuty != null">
+        user_duty,
+      </if>
+      <if test="dutyName != null">
+        duty_name,
+      </if>
+      <if test="accreditFlag != null">
+        accredit_flag,
+      </if>
+      <if test="syncFlag != null">
+        sync_flag,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="userCode != null">
+        user_code,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+     <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null">
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=CHAR},
+      </if>
+      <if test="ifAdmin != null">
+        #{ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userDuty != null">
+        #{userDuty,jdbcType=INTEGER},
+      </if>
+      <if test="dutyName != null">
+        #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accreditFlag != null">
+        #{accreditFlag,jdbcType=CHAR},
+      </if>
+      <if test="syncFlag != null">
+        #{syncFlag,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="userCode != null">
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.SysUserExample" resultType="java.lang.Long">
+    select count(*) from sys_user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeId != null">
+        office_id = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=CHAR},
+      </if>
+      <if test="record.ifAdmin != null">
+        if_admin = #{record.ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDuty != null">
+        user_duty = #{record.userDuty,jdbcType=INTEGER},
+      </if>
+      <if test="record.dutyName != null">
+        duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accreditFlag != null">
+        accredit_flag = #{record.accreditFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.syncFlag != null">
+        sync_flag = #{record.syncFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.userCode != null">
+        user_code = #{record.userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_user
+    set id = #{record.id,jdbcType=VARCHAR},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=CHAR},
+      if_admin = #{record.ifAdmin,jdbcType=CHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      user_duty = #{record.userDuty,jdbcType=INTEGER},
+      duty_name = #{record.dutyName,jdbcType=VARCHAR},
+      accredit_flag = #{record.accreditFlag,jdbcType=CHAR},
+      sync_flag = #{record.syncFlag,jdbcType=CHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      user_code = #{record.userCode,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.framework.sysbase.entity.SysUser">
+    update sys_user
+    <set>
+      <if test="officeId != null and officeId != ''">
+        office_id = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null and loginName != ''">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null and password != ''">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null and userName != ''">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null and sex != ''">
+        sex = #{sex,jdbcType=CHAR},
+      </if>
+      <if test="ifAdmin != null and ifAdmin != ''">
+        if_admin = #{ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="email != null and email != ''">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null and mobile != ''">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="userDuty != null and userDuty != ''">
+        user_duty = #{userDuty,jdbcType=INTEGER},
+      </if>
+      <if test="dutyName != null and dutyName != ''">
+        duty_name = #{dutyName,jdbcType=VARCHAR},
+      </if>
+      <if test="accreditFlag != null and accreditFlag != ''">
+        accredit_flag = #{accreditFlag,jdbcType=CHAR},
+      </if>
+      <if test="syncFlag != null and syncFlag != ''">
+        sync_flag = #{syncFlag,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null and birthday != ''">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="userCode != null and  userCode != ''">
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null and createBy != ''">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null and createDate != ''">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null and updateBy != ''">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null and updateDate != ''">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null and remarks != ''">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null and delFlag != ''">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.framework.sysbase.entity.SysUser">
+    update sys_user
+    set office_id = #{officeId,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=CHAR},
+      if_admin = #{ifAdmin,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      user_duty = #{userDuty,jdbcType=INTEGER},
+      duty_name = #{dutyName,jdbcType=VARCHAR},
+      accredit_flag = #{accreditFlag,jdbcType=CHAR},
+      sync_flag = #{syncFlag,jdbcType=CHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      user_code = #{userCode,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <resultMap type="net.lantrack.framework.sysbase.model.user.UserModel" id="UserModel">
+		<id property="id" column="id" />  	
+		<result property="loginName" column="login_name"/>
+		<result property="userName" column="user_name"/>
+		<result property="sex" column="sex"/>
+		<result property="birthday" column="birthday"/>
+		<result property="email" column="email"/>
+		<result property="mobile" column="mobile"/>
+		<result property="dutyName" column="duty_name"/>
+		<result property="accreditFlag" column="accredit_flag"/>
+		<result property="officeName" column="office_name"/>
+		<result property="forbidden" column="if_forbidden"/>
+		<result property="lock" column="if_lock"/>
+  </resultMap>
+  <!-- 用户列表字段 -->
+  <sql id="userColumn">
+  		o.id,o.login_name,o.user_name,o.sex,o.birthday,o.email,
+  		o.mobile,o.duty_name,f.t_name AS office_name,l.if_forbidden,l.if_lock
+  </sql>
+  <!-- 分页  -->
+  <select id="getUserListPage" parameterType="map" resultMap="UserModel">
+    SELECT
+	<include refid="userColumn" />
+	FROM `sys_user` o JOIN login_info l ON o.login_name = l.login_name LEFT JOIN `sys_office_tree` f ON o.office_id = f.id 
+    WHERE o.del_flag = 0 
+    <if test="user.userName != null and user.userName != ''">
+       <!-- mysql like的写法: like concat('%',#{param},'%') 或者 like '%${param}%' ，推荐使用前者，可以避免sql注入。 -->
+       AND o.user_name LIKE concat('%',#{user.userName},'%') 
+    </if>
+   <!--  <if test="user.ifAdmin != null and user.ifAdmin == '0'">
+       AND o.if_admin = #{user.ifAdmin}
+    </if> -->
+    <!-- 查看当前组织机构下的人员列表 -->
+    <if test="user.officeId != null and user.officeId != ''">
+       AND ( o.office_id = #{user.officeId} or f.p_id = #{user.officeId}  or f.p_ids like concat('%,',#{user.officeId},',%') ) 
+    </if>
+    <if test="user.mobile !=null and user.mobile != ''">
+    	AND o.mobile = #{user.mobile}
+    </if>
+  </select>
+  <!-- 根据所有officeIds分页查询用户列表  -->
+  <select id="getPageByOfficeId" parameterType="java.util.List"  resultMap="UserModel">
+    select 
+    <include refid="userColumn" />
+    FROM `sys_user` o JOIN login_info l ON o.login_name = l.login_name LEFT JOIN `sys_office_tree` f ON o.office_id = f.id 
+    WHERE o.del_flag = 0 
+       AND o.office_id IN 
+       <foreach collection="list" open="(" close=")" item="temp" separator=",">
+        #{temp}
+       </foreach>
+    <if test="userName != null">
+       AND o.user_name LIKE concat('%',#{userName},'%')
+    </if>
+    <if test="ifAdmin != null and ifAdmin != ''">
+       AND o.if_admin = #{ifAdmin} 
+    </if>
+    <if test="id != null and id != ''">
+       AND o.id = #{id} 
+    </if>
+    <if test="startIndex != null">
+       limit #{startIndex} , #{perPageCount}
+    </if>
+  </select>
+  <select id="getCountByOfficeId" parameterType="java.util.List"  resultType="java.lang.Integer">
+    select count(o.id) FROM `sys_user` o LEFT JOIN `sys_office_tree` f ON o.office_id = f.id 
+    WHERE o.del_flag = 0 
+       AND o.office_id IN 
+       <foreach collection="list" open="(" close=")" item="temp" separator=",">
+        #{temp}
+       </foreach>
+    <if test="userName != null">
+       AND o.user_name LIKE concat('%',#{userName},'%')
+    </if>
+  </select>
+    
+  
+  <!-- 批量插入 -->
+  <insert id="insertList" parameterType="java.util.List">
+	  insert into sys_user (id, office_id, login_name, user_code, password, user_name, sex, if_admin, email, mobile, user_duty, duty_name, 
+	  accredit_flag, sync_flag, birthday,create_by, create_date, update_by, update_date, remarks, del_flag) values
+	  <foreach collection="list" item="user" separator=",">
+	        (#{user.id,jdbcType=VARCHAR},
+	         #{user.officeId,jdbcType=VARCHAR}, 
+	         #{user.loginName,jdbcType=VARCHAR}, 
+	         #{user.userCode,jdbcType=VARCHAR}, 
+	         #{user.password,jdbcType=VARCHAR}, 
+	         #{user.userName,jdbcType=VARCHAR}, 
+	         #{user.sex,jdbcType=VARCHAR}, 
+	         #{user.ifAdmin,jdbcType=VARCHAR}, 
+	         #{user.email,jdbcType=VARCHAR}, 
+	         #{user.mobile,jdbcType=VARCHAR}, 
+	         #{user.userDuty,jdbcType=INTEGER}, 
+	         #{user.dutyName,jdbcType=VARCHAR}, 
+	         #{user.accreditFlag,jdbcType=VARCHAR}, 
+	         #{user.syncFlag,jdbcType=VARCHAR}, 
+	         #{user.birthday,jdbcType=VARCHAR}, 
+	         #{user.createBy,jdbcType=VARCHAR},
+	         #{user.createDate,jdbcType=VARCHAR},
+	         #{user.updateBy,jdbcType=VARCHAR},
+	         #{user.updateDate,jdbcType=VARCHAR},
+	         #{user.remarks,jdbcType=VARCHAR},
+	         #{user.delFlag,jdbcType=VARCHAR})
+	  </foreach>
+  </insert>
+</mapper>

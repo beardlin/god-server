@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.SysRoleDao">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.SysRole">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="use_able" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_admin" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="stand1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="net.lantrack.framework.sysbase.entity.SysRole">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="use_able" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_admin" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="stand1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="permission" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+       <arg column="data_scope" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, role_name, office_name, office_id, use_able, if_admin, stand1, stand2, 
+    stand3, create_by, create_date, update_by, update_date, remarks, del_flag
+  </sql>
+  <sql id="Blob_Column_List">
+    permission,data_scope
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="net.lantrack.framework.sysbase.entity.SysRoleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.SysRoleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.SysRoleExample">
+    delete from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.SysRole">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_role (role_name, office_name, office_id, 
+      data_scope, use_able, if_admin, 
+      stand1, stand2, stand3, 
+      create_by, create_date, update_by, 
+      update_date, remarks, del_flag, 
+      permission)
+    values (#{roleName,jdbcType=VARCHAR}, #{officeName,jdbcType=VARCHAR}, #{officeId,jdbcType=VARCHAR}, 
+      #{dataScope,jdbcType=LONGVARCHAR}, #{useAble,jdbcType=VARCHAR}, #{ifAdmin,jdbcType=CHAR}, 
+      #{stand1,jdbcType=VARCHAR}, #{stand2,jdbcType=VARCHAR}, #{stand3,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR}, 
+      #{permission,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.SysRole">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        role_name,
+      </if>
+      <if test="officeName != null">
+        office_name,
+      </if>
+      <if test="officeId != null">
+        office_id,
+      </if>
+      <if test="dataScope != null">
+        data_scope,
+      </if>
+      <if test="useAble != null">
+        use_able,
+      </if>
+      <if test="ifAdmin != null">
+        if_admin,
+      </if>
+      <if test="stand1 != null">
+        stand1,
+      </if>
+      <if test="stand2 != null">
+        stand2,
+      </if>
+      <if test="stand3 != null">
+        stand3,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeName != null">
+        #{officeName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null">
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null">
+        #{dataScope,jdbcType=VARCHAR},
+      </if>
+      <if test="useAble != null">
+        #{useAble,jdbcType=VARCHAR},
+      </if>
+      <if test="ifAdmin != null">
+        #{ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="stand1 != null">
+        #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        #{stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.SysRoleExample" resultType="java.lang.Long">
+    select count(*) from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_role
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.roleName != null">
+        role_name = #{record.roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeName != null">
+        office_name = #{record.officeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeId != null">
+        office_id = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataScope != null">
+        data_scope = #{record.dataScope,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.useAble != null">
+        use_able = #{record.useAble,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifAdmin != null">
+        if_admin = #{record.ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="record.stand1 != null">
+        stand1 = #{record.stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand2 != null">
+        stand2 = #{record.stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand3 != null">
+        stand3 = #{record.stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.permission != null">
+        permission = #{record.permission,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update sys_role
+    set id = #{record.id,jdbcType=INTEGER},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      office_name = #{record.officeName,jdbcType=VARCHAR},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      data_scope = #{record.dataScope,jdbcType=LONGVARCHAR},
+      use_able = #{record.useAble,jdbcType=VARCHAR},
+      if_admin = #{record.ifAdmin,jdbcType=CHAR},
+      stand1 = #{record.stand1,jdbcType=VARCHAR},
+      stand2 = #{record.stand2,jdbcType=VARCHAR},
+      stand3 = #{record.stand3,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=CHAR},
+      permission = #{record.permission,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_role
+    set id = #{record.id,jdbcType=INTEGER},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      office_name = #{record.officeName,jdbcType=VARCHAR},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      data_scope = #{record.dataScope,jdbcType=LONGVARCHAR},
+      use_able = #{record.useAble,jdbcType=VARCHAR},
+      if_admin = #{record.ifAdmin,jdbcType=CHAR},
+      stand1 = #{record.stand1,jdbcType=VARCHAR},
+      stand2 = #{record.stand2,jdbcType=VARCHAR},
+      stand3 = #{record.stand3,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.framework.sysbase.entity.SysRole">
+    update sys_role
+    <set>
+      <if test="roleName != null and roleName != ''">
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeName != null and officeName != ''">
+        office_name = #{officeName,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null and officeId != ''">
+        office_id = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null and dataScope != ''">
+        data_scope = #{dataScope,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="useAble != null and useAble != ''">
+        use_able = #{useAble,jdbcType=VARCHAR},
+      </if>
+      <if test="ifAdmin != null and ifAdmin != ''">
+        if_admin = #{ifAdmin,jdbcType=CHAR},
+      </if>
+      <if test="stand1 != null and stand1 != ''">
+        stand1 = #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null and stand2 != ''">
+        stand2 = #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null and stand3 != ''">
+        stand3 = #{stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null and createBy != ''">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null and updateBy != ''">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null and remarks != ''">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null and delFlag != ''">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="permission != null and permission != ''">
+        permission = #{permission,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="net.lantrack.framework.sysbase.entity.SysRole">
+    update sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      office_name = #{officeName,jdbcType=VARCHAR},
+      office_id = #{officeId,jdbcType=VARCHAR},
+      data_scope = #{dataScope,jdbcType=LONGVARCHAR},
+      use_able = #{useAble,jdbcType=VARCHAR},
+      if_admin = #{ifAdmin,jdbcType=CHAR},
+      stand1 = #{stand1,jdbcType=VARCHAR},
+      stand2 = #{stand2,jdbcType=VARCHAR},
+      stand3 = #{stand3,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      permission = #{permission,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.framework.sysbase.entity.SysRole">
+    update sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      office_name = #{officeName,jdbcType=VARCHAR},
+      office_id = #{officeId,jdbcType=VARCHAR},
+      data_scope = #{dataScope,jdbcType=LONGVARCHAR},
+      use_able = #{useAble,jdbcType=VARCHAR},
+      if_admin = #{ifAdmin,jdbcType=CHAR},
+      stand1 = #{stand1,jdbcType=VARCHAR},
+      stand2 = #{stand2,jdbcType=VARCHAR},
+      stand3 = #{stand3,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 分页 -->
+	<select id="getRoleListPage" parameterType="map"
+		resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM `sys_role`
+		WHERE del_flag=#{temp.delFlag}
+		<if test="temp.roleName != null and temp.roleName != ''">
+		  AND role_name like CONCAT('%',#{temp.roleName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="temp.useAble != null and temp.useAble != ''">
+		  AND use_able = #{temp.useAble}
+		</if>
+	</select>
+</mapper>

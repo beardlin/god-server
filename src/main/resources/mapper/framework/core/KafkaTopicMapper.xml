@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.jms.kafka.topic.dao.KafkaTopicMapper">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopic">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="topic" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="observer" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand3" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, topic, observer, remarks, stand1, stand2, stand3
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from kafka_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from kafka_topic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from kafka_topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopicExample">
+    delete from kafka_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopic">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into kafka_topic (topic, observer, remarks, 
+      stand1, stand2, stand3
+      )
+    values (#{topic,jdbcType=VARCHAR}, #{observer,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{stand1,jdbcType=VARCHAR}, #{stand2,jdbcType=VARCHAR}, #{stand3,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopic">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into kafka_topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="topic != null">
+        topic,
+      </if>
+      <if test="observer != null">
+        observer,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="stand1 != null">
+        stand1,
+      </if>
+      <if test="stand2 != null">
+        stand2,
+      </if>
+      <if test="stand3 != null">
+        stand3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="observer != null">
+        #{observer,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="stand1 != null">
+        #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        #{stand3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopicExample" resultType="java.lang.Long">
+    select count(*) from kafka_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update kafka_topic
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.topic != null">
+        topic = #{record.topic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.observer != null">
+        observer = #{record.observer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand1 != null">
+        stand1 = #{record.stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand2 != null">
+        stand2 = #{record.stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand3 != null">
+        stand3 = #{record.stand3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update kafka_topic
+    set id = #{record.id,jdbcType=INTEGER},
+      topic = #{record.topic,jdbcType=VARCHAR},
+      observer = #{record.observer,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      stand1 = #{record.stand1,jdbcType=VARCHAR},
+      stand2 = #{record.stand2,jdbcType=VARCHAR},
+      stand3 = #{record.stand3,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopic">
+    update kafka_topic
+    <set>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
+      <if test="observer != null">
+        observer = #{observer,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="stand1 != null">
+        stand1 = #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        stand2 = #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        stand3 = #{stand3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.framework.jms.kafka.topic.entity.KafkaTopic">
+    update kafka_topic
+    set topic = #{topic,jdbcType=VARCHAR},
+      observer = #{observer,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      stand1 = #{stand1,jdbcType=VARCHAR},
+      stand2 = #{stand2,jdbcType=VARCHAR},
+      stand3 = #{stand3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

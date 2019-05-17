@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.project.search.dao.DataSerchModelDao">
+  <resultMap id="BaseResultMap" type="net.lantrack.project.search.entity.DataSerchModel">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="model_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="model_cond" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="model_field" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="model_cond_zh" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="model_field_zh" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="show_who" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="office_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="create_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="update_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_date" javaType="java.lang.String" jdbcType="TIMESTAMP" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, model_name, model_cond, model_field, model_cond_zh, model_field_zh, show_who, 
+    office_code, create_by, create_date, update_by, update_date, del_flag, remarks
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.project.search.entity.DataSerchModelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dataserch_model
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dataserch_model
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dataserch_model
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.project.search.entity.DataSerchModelExample">
+    delete from dataserch_model
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.project.search.entity.DataSerchModel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dataserch_model (model_name, model_cond, model_field, 
+      model_cond_zh, model_field_zh, show_who, 
+      office_code, create_by, create_date, 
+      update_by, update_date, del_flag, 
+      remarks)
+    values (#{modelName,jdbcType=VARCHAR}, #{modelCond,jdbcType=VARCHAR}, #{modelField,jdbcType=VARCHAR}, 
+      #{modelCondZh,jdbcType=VARCHAR}, #{modelFieldZh,jdbcType=VARCHAR}, #{showWho,jdbcType=VARCHAR}, 
+      #{officeCode,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.project.search.entity.DataSerchModel">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dataserch_model
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="modelName != null">
+        model_name,
+      </if>
+      <if test="modelCond != null">
+        model_cond,
+      </if>
+      <if test="modelField != null">
+        model_field,
+      </if>
+      <if test="modelCondZh != null">
+        model_cond_zh,
+      </if>
+      <if test="modelFieldZh != null">
+        model_field_zh,
+      </if>
+      <if test="showWho != null">
+        show_who,
+      </if>
+      <if test="officeCode != null">
+        office_code,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="modelName != null">
+        #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCond != null">
+        #{modelCond,jdbcType=VARCHAR},
+      </if>
+      <if test="modelField != null">
+        #{modelField,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCondZh != null">
+        #{modelCondZh,jdbcType=VARCHAR},
+      </if>
+      <if test="modelFieldZh != null">
+        #{modelFieldZh,jdbcType=VARCHAR},
+      </if>
+      <if test="showWho != null">
+        #{showWho,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null">
+        #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.project.search.entity.DataSerchModelExample" resultType="java.lang.Long">
+    select count(*) from dataserch_model
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dataserch_model
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.modelName != null">
+        model_name = #{record.modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelCond != null">
+        model_cond = #{record.modelCond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelField != null">
+        model_field = #{record.modelField,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelCondZh != null">
+        model_cond_zh = #{record.modelCondZh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modelFieldZh != null">
+        model_field_zh = #{record.modelFieldZh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showWho != null">
+        show_who = #{record.showWho,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officeCode != null">
+        office_code = #{record.officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dataserch_model
+    set id = #{record.id,jdbcType=INTEGER},
+      model_name = #{record.modelName,jdbcType=VARCHAR},
+      model_cond = #{record.modelCond,jdbcType=VARCHAR},
+      model_field = #{record.modelField,jdbcType=VARCHAR},
+      model_cond_zh = #{record.modelCondZh,jdbcType=VARCHAR},
+      model_field_zh = #{record.modelFieldZh,jdbcType=VARCHAR},
+      show_who = #{record.showWho,jdbcType=VARCHAR},
+      office_code = #{record.officeCode,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=CHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.project.search.entity.DataSerchModel">
+    update dataserch_model
+    <set>
+      <if test="modelName != null">
+        model_name = #{modelName,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCond != null">
+        model_cond = #{modelCond,jdbcType=VARCHAR},
+      </if>
+      <if test="modelField != null">
+        model_field = #{modelField,jdbcType=VARCHAR},
+      </if>
+      <if test="modelCondZh != null">
+        model_cond_zh = #{modelCondZh,jdbcType=VARCHAR},
+      </if>
+      <if test="modelFieldZh != null">
+        model_field_zh = #{modelFieldZh,jdbcType=VARCHAR},
+      </if>
+      <if test="showWho != null">
+        show_who = #{showWho,jdbcType=VARCHAR},
+      </if>
+      <if test="officeCode != null">
+        office_code = #{officeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.project.search.entity.DataSerchModel">
+    update dataserch_model
+    set model_name = #{modelName,jdbcType=VARCHAR},
+      model_cond = #{modelCond,jdbcType=VARCHAR},
+      model_field = #{modelField,jdbcType=VARCHAR},
+      model_cond_zh = #{modelCondZh,jdbcType=VARCHAR},
+      model_field_zh = #{modelFieldZh,jdbcType=VARCHAR},
+      show_who = #{showWho,jdbcType=VARCHAR},
+      office_code = #{officeCode,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 分页查询专用条件 -->
+  <sql id="Page_Example">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} '${criterion.value}'
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} '${criterion.value}' and '${criterion.secondValue}'
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    '${listItem}'
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+  <!-- 分页查询 -->
+  <select id="getListPage" parameterType="map" resultMap="BaseResultMap"> 
+  	 select
+     <include refid="Base_Column_List" />
+     from dataserch_model
+     <if test="example!=null">
+     	<include refid="Page_Example"></include>
+     </if>
+  
+  </select>
+</mapper>

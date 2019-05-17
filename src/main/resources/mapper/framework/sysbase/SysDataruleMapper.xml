@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.SysDataruleMapper">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.SysDatarule">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="menu_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="rule_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="t_field" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="t_express" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="t_value" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sql_segment" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="del_flag" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="className" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, menu_id, rule_name, t_field, t_express, t_value, sql_segment, remarks, del_flag, 
+    className
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.SysDataruleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_datarule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_datarule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_datarule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.SysDataruleExample">
+    delete from sys_datarule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.SysDatarule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_datarule (menu_id, rule_name, t_field, 
+      t_express, t_value, sql_segment, 
+      remarks, del_flag, className
+      )
+    values (#{menuId,jdbcType=INTEGER}, #{ruleName,jdbcType=VARCHAR}, #{tField,jdbcType=VARCHAR}, 
+      #{tExpress,jdbcType=VARCHAR}, #{tValue,jdbcType=VARCHAR}, #{sqlSegment,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.SysDatarule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_datarule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        menu_id,
+      </if>
+      <if test="ruleName != null">
+        rule_name,
+      </if>
+      <if test="tField != null">
+        t_field,
+      </if>
+      <if test="tExpress != null">
+        t_express,
+      </if>
+      <if test="tValue != null">
+        t_value,
+      </if>
+      <if test="sqlSegment != null">
+        sql_segment,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="classname != null">
+        className,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="ruleName != null">
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="tField != null">
+        #{tField,jdbcType=VARCHAR},
+      </if>
+      <if test="tExpress != null">
+        #{tExpress,jdbcType=VARCHAR},
+      </if>
+      <if test="tValue != null">
+        #{tValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlSegment != null">
+        #{sqlSegment,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.SysDataruleExample" resultType="java.lang.Long">
+    select count(*) from sys_datarule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_datarule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuId != null">
+        menu_id = #{record.menuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ruleName != null">
+        rule_name = #{record.ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tField != null">
+        t_field = #{record.tField,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tExpress != null">
+        t_express = #{record.tExpress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tValue != null">
+        t_value = #{record.tValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sqlSegment != null">
+        sql_segment = #{record.sqlSegment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classname != null">
+        className = #{record.classname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_datarule
+    set id = #{record.id,jdbcType=INTEGER},
+      menu_id = #{record.menuId,jdbcType=INTEGER},
+      rule_name = #{record.ruleName,jdbcType=VARCHAR},
+      t_field = #{record.tField,jdbcType=VARCHAR},
+      t_express = #{record.tExpress,jdbcType=VARCHAR},
+      t_value = #{record.tValue,jdbcType=VARCHAR},
+      sql_segment = #{record.sqlSegment,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=VARCHAR},
+      className = #{record.classname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.lantrack.framework.sysbase.entity.SysDatarule">
+    update sys_datarule
+    <set>
+      <if test="menuId != null">
+        menu_id = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="ruleName != null">
+        rule_name = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="tField != null">
+        t_field = #{tField,jdbcType=VARCHAR},
+      </if>
+      <if test="tExpress != null">
+        t_express = #{tExpress,jdbcType=VARCHAR},
+      </if>
+      <if test="tValue != null">
+        t_value = #{tValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlSegment != null">
+        sql_segment = #{sqlSegment,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null">
+        className = #{classname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.lantrack.framework.sysbase.entity.SysDatarule">
+    update sys_datarule
+    set menu_id = #{menuId,jdbcType=INTEGER},
+      rule_name = #{ruleName,jdbcType=VARCHAR},
+      t_field = #{tField,jdbcType=VARCHAR},
+      t_express = #{tExpress,jdbcType=VARCHAR},
+      t_value = #{tValue,jdbcType=VARCHAR},
+      sql_segment = #{sqlSegment,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=VARCHAR},
+      className = #{classname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

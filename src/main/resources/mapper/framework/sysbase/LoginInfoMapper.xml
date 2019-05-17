@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.LoginInfoMapper">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.LoginInfo">
+    <constructor>
+      <arg column="login_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="if_forbidden" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="if_lock" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="lock_start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="lock_end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="err_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="last_suc_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="last_suc_address" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="last_suc_ip" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="last_device" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sendmsg_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="endmsg_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="msg_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand4" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand5" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="stand6" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    login_name, if_forbidden, if_lock, lock_start_time, lock_end_time, err_count, last_suc_time, 
+    last_suc_address, last_suc_ip, last_device, sendmsg_time, endmsg_time, msg_code, 
+    stand1, stand2, stand3, stand4, stand5, stand6
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.LoginInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from login_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.LoginInfoExample">
+    delete from login_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.LoginInfo">
+    insert into login_info (login_name, if_forbidden, if_lock, 
+      lock_start_time, lock_end_time, err_count, 
+      last_suc_time, last_suc_address, last_suc_ip, 
+      last_device, sendmsg_time, endmsg_time, 
+      msg_code, stand1, stand2, 
+      stand3, stand4, stand5, 
+      stand6)
+    values (#{loginName,jdbcType=VARCHAR}, #{ifForbidden,jdbcType=CHAR}, #{ifLock,jdbcType=CHAR}, 
+      #{lockStartTime,jdbcType=TIMESTAMP}, #{lockEndTime,jdbcType=TIMESTAMP}, #{errCount,jdbcType=INTEGER}, 
+      #{lastSucTime,jdbcType=TIMESTAMP}, #{lastSucAddress,jdbcType=VARCHAR}, #{lastSucIp,jdbcType=VARCHAR}, 
+      #{lastDevice,jdbcType=VARCHAR}, #{sendmsgTime,jdbcType=TIMESTAMP}, #{endmsgTime,jdbcType=TIMESTAMP}, 
+      #{msgCode,jdbcType=VARCHAR}, #{stand1,jdbcType=VARCHAR}, #{stand2,jdbcType=VARCHAR}, 
+      #{stand3,jdbcType=VARCHAR}, #{stand4,jdbcType=VARCHAR}, #{stand5,jdbcType=VARCHAR}, 
+      #{stand6,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.LoginInfo">
+    insert into login_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="ifForbidden != null">
+        if_forbidden,
+      </if>
+      <if test="ifLock != null">
+        if_lock,
+      </if>
+      <if test="lockStartTime != null">
+        lock_start_time,
+      </if>
+      <if test="lockEndTime != null">
+        lock_end_time,
+      </if>
+      <if test="errCount != null">
+        err_count,
+      </if>
+      <if test="lastSucTime != null">
+        last_suc_time,
+      </if>
+      <if test="lastSucAddress != null">
+        last_suc_address,
+      </if>
+      <if test="lastSucIp != null">
+        last_suc_ip,
+      </if>
+      <if test="lastDevice != null">
+        last_device,
+      </if>
+      <if test="sendmsgTime != null">
+        sendmsg_time,
+      </if>
+      <if test="endmsgTime != null">
+        endmsg_time,
+      </if>
+      <if test="msgCode != null">
+        msg_code,
+      </if>
+      <if test="stand1 != null">
+        stand1,
+      </if>
+      <if test="stand2 != null">
+        stand2,
+      </if>
+      <if test="stand3 != null">
+        stand3,
+      </if>
+      <if test="stand4 != null">
+        stand4,
+      </if>
+      <if test="stand5 != null">
+        stand5,
+      </if>
+      <if test="stand6 != null">
+        stand6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="ifForbidden != null">
+        #{ifForbidden,jdbcType=CHAR},
+      </if>
+      <if test="ifLock != null">
+        #{ifLock,jdbcType=CHAR},
+      </if>
+      <if test="lockStartTime != null">
+        #{lockStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockEndTime != null">
+        #{lockEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errCount != null">
+        #{errCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastSucTime != null">
+        #{lastSucTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastSucAddress != null">
+        #{lastSucAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="lastSucIp != null">
+        #{lastSucIp,jdbcType=VARCHAR},
+      </if>
+      <if test="lastDevice != null">
+        #{lastDevice,jdbcType=VARCHAR},
+      </if>
+      <if test="sendmsgTime != null">
+        #{sendmsgTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endmsgTime != null">
+        #{endmsgTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="msgCode != null">
+        #{msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stand1 != null">
+        #{stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="stand2 != null">
+        #{stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="stand3 != null">
+        #{stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="stand4 != null">
+        #{stand4,jdbcType=VARCHAR},
+      </if>
+      <if test="stand5 != null">
+        #{stand5,jdbcType=VARCHAR},
+      </if>
+      <if test="stand6 != null">
+        #{stand6,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.LoginInfoExample" resultType="java.lang.Long">
+    select count(*) from login_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update login_info
+    <set>
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifForbidden != null">
+        if_forbidden = #{record.ifForbidden,jdbcType=CHAR},
+      </if>
+      <if test="record.ifLock != null">
+        if_lock = #{record.ifLock,jdbcType=CHAR},
+      </if>
+      <if test="record.lockStartTime != null">
+        lock_start_time = #{record.lockStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lockEndTime != null">
+        lock_end_time = #{record.lockEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.errCount != null">
+        err_count = #{record.errCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastSucTime != null">
+        last_suc_time = #{record.lastSucTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastSucAddress != null">
+        last_suc_address = #{record.lastSucAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastSucIp != null">
+        last_suc_ip = #{record.lastSucIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastDevice != null">
+        last_device = #{record.lastDevice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendmsgTime != null">
+        sendmsg_time = #{record.sendmsgTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endmsgTime != null">
+        endmsg_time = #{record.endmsgTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.msgCode != null">
+        msg_code = #{record.msgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand1 != null">
+        stand1 = #{record.stand1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand2 != null">
+        stand2 = #{record.stand2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand3 != null">
+        stand3 = #{record.stand3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand4 != null">
+        stand4 = #{record.stand4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand5 != null">
+        stand5 = #{record.stand5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stand6 != null">
+        stand6 = #{record.stand6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update login_info
+    set login_name = #{record.loginName,jdbcType=VARCHAR},
+      if_forbidden = #{record.ifForbidden,jdbcType=CHAR},
+      if_lock = #{record.ifLock,jdbcType=CHAR},
+      lock_start_time = #{record.lockStartTime,jdbcType=TIMESTAMP},
+      lock_end_time = #{record.lockEndTime,jdbcType=TIMESTAMP},
+      err_count = #{record.errCount,jdbcType=INTEGER},
+      last_suc_time = #{record.lastSucTime,jdbcType=TIMESTAMP},
+      last_suc_address = #{record.lastSucAddress,jdbcType=VARCHAR},
+      last_suc_ip = #{record.lastSucIp,jdbcType=VARCHAR},
+      last_device = #{record.lastDevice,jdbcType=VARCHAR},
+      sendmsg_time = #{record.sendmsgTime,jdbcType=TIMESTAMP},
+      endmsg_time = #{record.endmsgTime,jdbcType=TIMESTAMP},
+      msg_code = #{record.msgCode,jdbcType=VARCHAR},
+      stand1 = #{record.stand1,jdbcType=VARCHAR},
+      stand2 = #{record.stand2,jdbcType=VARCHAR},
+      stand3 = #{record.stand3,jdbcType=VARCHAR},
+      stand4 = #{record.stand4,jdbcType=VARCHAR},
+      stand5 = #{record.stand5,jdbcType=VARCHAR},
+      stand6 = #{record.stand6,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

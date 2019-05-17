@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.UserRoleDao">
+	<resultMap id="BaseResultMap"
+		type="net.lantrack.framework.sysbase.entity.UserRole">
+		<result column="user_id" property="userId" javaType="java.lang.String"
+			jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" javaType="java.lang.Integer"
+			jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 单个插入 -->
+	<insert id="insert"  parameterType="net.lantrack.framework.sysbase.entity.UserRole">
+        insert into user_role (user_id, role_id)
+        values (#{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER})
+    </insert>
+	<!-- 批量插入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into user_role (user_id, role_id) values
+        <foreach collection="list" item="temp" separator=",">
+            (#{temp.userId,jdbcType=VARCHAR}, #{temp.roleId,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+	<!-- 根据用户查询对应角色集合 -->
+	<select id="queryRoleListByUser" parameterType="java.lang.String" resultType="java.lang.Integer">
+	       select role_id from user_role where user_id = #{id}
+	</select>
+	<!-- 删除指定用户关联的所有角色 -->
+	<delete id="deleteByUserId" parameterType="java.util.List" >
+	   delete from user_role where user_id in
+	   <foreach collection="list" open="(" close=")" item="temp" separator=",">
+            #{temp}
+        </foreach>
+	</delete>
+	
+	
+
+</mapper>

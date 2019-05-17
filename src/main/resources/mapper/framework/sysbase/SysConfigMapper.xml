@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lantrack.framework.sysbase.dao.SysConfigMapper">
+  <resultMap id="BaseResultMap" type="net.lantrack.framework.sysbase.entity.SysConfig">
+    <constructor>
+      <arg column="conf_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="conf_value" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="conf_remarks" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="label" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    conf_name, conf_value, conf_remarks, label
+  </sql>
+  <select id="selectByExample" parameterType="net.lantrack.framework.sysbase.entity.SysConfigExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="net.lantrack.framework.sysbase.entity.SysConfigExample">
+    delete from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.lantrack.framework.sysbase.entity.SysConfig">
+    insert into sys_config (conf_name, conf_value, conf_remarks, 
+      label)
+    values (#{confName,jdbcType=VARCHAR}, #{confValue,jdbcType=VARCHAR}, #{confRemarks,jdbcType=VARCHAR}, 
+      #{label,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.lantrack.framework.sysbase.entity.SysConfig">
+    insert into sys_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="confName != null">
+        conf_name,
+      </if>
+      <if test="confValue != null">
+        conf_value,
+      </if>
+      <if test="confRemarks != null">
+        conf_remarks,
+      </if>
+      <if test="label != null">
+        label,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="confName != null">
+        #{confName,jdbcType=VARCHAR},
+      </if>
+      <if test="confValue != null">
+        #{confValue,jdbcType=VARCHAR},
+      </if>
+      <if test="confRemarks != null">
+        #{confRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null">
+        #{label,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.lantrack.framework.sysbase.entity.SysConfigExample" resultType="java.lang.Long">
+    select count(*) from sys_config
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_config
+    <set>
+      <if test="record.confName != null">
+        conf_name = #{record.confName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confValue != null">
+        conf_value = #{record.confValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confRemarks != null">
+        conf_remarks = #{record.confRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null">
+        label = #{record.label,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_config
+    set conf_name = #{record.confName,jdbcType=VARCHAR},
+      conf_value = #{record.confValue,jdbcType=VARCHAR},
+      conf_remarks = #{record.confRemarks,jdbcType=VARCHAR},
+      label = #{record.label,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
